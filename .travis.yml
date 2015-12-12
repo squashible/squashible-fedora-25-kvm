@@ -4,7 +4,11 @@ python: "2.7"
 sudo: required
 dist: trusty
 
+git:
+  submodules: false
+
 before_install:
+ - git submodule update --init --recursive
  - sed -i "s/^docker_os.*$/docker_os: fedora-23/" squashible/group_vars/all
  - sudo apt-get update -qq
  - sudo apt-get install -qq squashfs-tools uuid python-apt python-pycurl btrfs-tools
