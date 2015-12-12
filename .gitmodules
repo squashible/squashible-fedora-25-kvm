@@ -1,4 +1,4 @@
 [submodule "squashible"]
 	path = squashible
-	url = https://github.com/squashible/squashible.git
+	url = git@github.com:squashible/squashible.git
 	branch = master
