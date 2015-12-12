@@ -8,6 +8,7 @@ git:
   submodules: false
 
 before_install:
+ - git submodule update --init --recursive
  - git submodule update --remote
  - find . 
  - sed -i "s/^docker_os.*$/docker_os: fedora-23/" squashible/group_vars/all
