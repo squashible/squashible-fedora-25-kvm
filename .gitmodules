@@ -1,4 +1,4 @@
 [submodule "squashible"]
 	path = squashible
-	url = git@github.com:squashible/squashible.git
+	url = https://github.com/squashible/squashible-fedora-23-minimal.git
 	branch = master
