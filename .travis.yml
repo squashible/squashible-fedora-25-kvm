@@ -1,23 +1,34 @@
----
 language: python
-python: "2.7"
+python: '2.7'
 sudo: required
 dist: trusty
-
 git:
   submodules: false
-
 before_install:
- - git submodule update --init --recursive
- - git submodule foreach git pull origin master
- - sudo apt-get update -qq
- - sudo apt-get install -qq squashfs-tools uuid python-apt python-pycurl btrfs-tools
-
+- git submodule update --init --recursive
+- git submodule foreach git pull origin master
+- sudo apt-get update -qq
+- sudo apt-get install -qq squashfs-tools uuid python-apt python-pycurl btrfs-tools
 install:
- - sudo pip install ansible
- - sudo pip install docker-py
-
+- sudo pip install ansible
+- sudo pip install docker-py
 script:
- - cd squashible
- - sudo ansible-playbook -i hosts_generator.py squashible.yml -e "live_os=fedora_23"
- - ls -lah live_output
+- cd squashible
+- sudo ansible-playbook -i hosts_generator.py squashible.yml -e "live_os=fedora_23"
+- ls -lah live_output
+before_deploy:
+- cd live_output
+- mkdir squashible-fedora-23-minimal
+- mv vmlinuz squashible-fedora-23-minimal
+- mv *.img squashible-fedora-23-minimal
+deploy:
+  provider: cloudfiles
+  username:
+    secure: U5Q/GWouFYxUsQ6tTR3/ZNZUwvkctK6gK8Rn20D16c6lisHDkKtApcYqVjEohjEVrJ9RsNxan6j7fYg0l2wRZCIKLAT2fBMPz8TDkwBxALqPjw3hrADmDTwSjqeqHt2kU8wosajti0m0rpeou2TY+QsqKv3+F3tjkomtuJHmsOdhr91AG+4pjjFeiLllR9QvtbWpQqtVTEBNIl+FceBLnFsQbki1qfNzDiJn+RkfajxtQ8m4eUWO4gN21kFC0K5pNsKd67JgnZWwTfjnB4kmYWMPvuy2eomcmZdoYvZp7J0dfTrcRh+oLFHPbrsw30Lsh2N/THnbjwZoRtBKnFzo/nsSIXt/V38PZLbqZ/2L9a4fh2ur95zEIWP9sPJR7l5etfsWQae6Og6voiJ444PKw1lfMvn/FYtKUdo1wRmyFV5US4KLpVNRAlqYkIwt2Nf4utfO6AasJXDOX8LY2tyA07nU84UqIc0g0nhX+GRI7AtX+g6pTZkr/HbfSg3wgV3rzcDeiXs+9kM7FsBkC+BDzVMeThKwzVcorHyxIX9rgsVXhFr+cLtV37a5v1Ylp9UiKJTozN/+NI6RcnarzGw684uWpqNvvpyPFEGp61p284QvyzDFLMcupDJEdTOIM9L5WiJDdePzq9Vbfgaz4WRaOWnc4hzDRNnufZu21X3K8y8=
+  api_key:
+    secure: QVsFy/hRAJTWAS/UKqieAfkewJR0Abk1s9v9xx3bNmME68l3TTRmhuBnlw+CKps81J/7UKxeP/gmByNSpIyiEyD39vhczFC2sE1BPaSDznk8pQd2aseCS69tCE+tpAgoszcBtXh+ubc/ydJU56UqYHT2Oah60ZRT29RnOqzAMChD3au3azRPblUX3+v+1zlDLMcB3njuRg9O6BFqkdTBtyrjAhoHghZnyZ5XJ+j7UWZHTYVVQY8T7PP3T1nHmVSeDwyVu+LKnoZ0rHykV5LYGdDDboRZZj6eQtBn8/oSLAx4XrtnKf+AHC604L/WwjPTlPbFVeGRbfjGAMhU1pGr7JqaIgWs9OGW81mRGoEYHR7o4zFmE4gbMm5y1oWYzsHl7kponFRt1jqp3N3CWliqBoT87hD6RJTTywDmgDjIgx3nwODyLvNBHLqDXm0Wvus/FyhN1QQEcB7JjJWe4pLI/823CAUFdI2n5n+qFFIENNXUnsmit2KExoA6Wjjkku/DguRD301OIKDMpdL4YVvSNqPz4mELWMRwyceHfeaMMLwji8UXWd0/PWUT1+AnRMxHRnp7KUxn+THQL27Akk/EPPNuQw8TOkywo0CDttJyv3vSrBkB4qAuuOZxD/l7er3TP8/bZGS9XBRMuWb9XKOmaCUPaymYQ89xT6RVsNRUDlA=
+  region:
+    secure: ZoGaq5P/pV/iSvGsvEGqf5aLpRyn7ZjmIcV8aFr5K4hScOA6Z56/LlC8oA5CGmA5vlBnHTbB4SVAIIxKhUt1dEXXp/yjQEhbrDZX+LY3OOhc/I2g5tYOViVLkncIHZarK4sD/OrAK9q1/D0WLvfeMHsNT4FWduyQAR12FiZhkmGy654ppm1FReC1ujG5X9Ubb41Mk20SitA3VFm2po7FwxEahlB/zi6ZkU9OqT3E5vAxnGZOqV9K/FVuwgJSE4iPZismcAqkeyBIRLWlk/8PoDDftCorlNTcaNlYKQ+PQbMtPYvtBK2fb18tGx0BiRUpTf/fuir7a9FWlU5cbT98Qx/lNMl6Q6LcxG/Lt5eu6z/sEJya/ukLLK9dWZyC9B9lLGM2fSOZtx69eersZK6DVnvgUEesp2TEEe8tD5kbShpszCCHJNEE+DlADyiWSDWz7JHIL/k6SQvB9yzSs5BWFxezRPKIGLNUsWWAFnakwsuD78wfrJgtDWDtDrU2kI0OQv22uUZlHzD68mRlV3Q1+taJvwyDBFotwP9xXuV/pB02Gk3awiWDQ6SiJFYy3r9Tt8Mj9VEcx41A9lSY7DFyKoF7nqoB3zk06hGu0NfsCN1d6IVxG/JdpAJK89ZMsMBKNEG/LzfW7Tn3Idk9f0ldmoSL4m9g6bUNhiIcU6PfNzc=
+  container:
+    secure: JZdrZHkIf0MMpWczVMucRzsJ6i3P7GUV6AJAEfR6ePlbU9jevANB+4txbAidP+2YnfrYZ/H8E1/C2psAn1HBNR/37JCAwhjlDe/D2SkQ6l0usEwG3hFxEjvcUH+4p2feOJPEfj9w5g+B1Ay67fIQaZKNayBnvrSYwdqpss31+J+sutwMgmlyi5JubVz+PUgALWCzx4I/LvgGUX/VoIeRbMVQtflskcO8aeMdWKUee1ijkGGkNWe/VV+aSJv8AA2ImbCI1Ak/WHgqC4bY4a1X/cE9mMUKjkV79W/TecR/IuJLkayP0HbKQfF0CjO1ph5J8xGnwLiTRnASNIuR3LmCu36By8ssDFviUp4IKDo/8XDIST5+M6JEZ5Nwo8+Hr30S/xXy1nvwOIbRYCAiwhMzSoFd8rIoaUNQUNn1xE1+kplzkC1EA9tszwBWK5EawA8qBN80XMRDSRwlVrqEXEoYFz+A7LeABYYeoEePtH38huFmMRPVyWDeMhy0tYRPfadjQQG2md+PQYG0qxOSWzyj0s8z9jGTqbui5l8mvztHc/O7dCahKneAu2mbaBFOYPRe/Tf7K2fAHQlkDBAG2O1e5RD4fQ6a2ASO8nRrP7FdvKLO3fB0WJgWLWnU14SBxPDFXEMuJZpaIS6fRvDtB4z6URS30DPMXWJVc6gdJS3qJx4=
+  skip_cleanup: true
