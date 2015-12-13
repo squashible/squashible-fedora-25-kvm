@@ -4,8 +4,11 @@ python: "2.7"
 sudo: required
 dist: trusty
 
+git:
+  submodules: false
+
 before_install:
- - find . 
+ - git submodule foreach git pull origin master
  - sudo apt-get update -qq
  - sudo apt-get install -qq squashfs-tools uuid python-apt python-pycurl btrfs-tools
 
