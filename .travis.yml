@@ -15,4 +15,4 @@ install:
 
 script:
  - cd squashible
- - sudo ./run_squashible.sh
+ - sudo ansible-playbook -i hosts_generator.py squashible.yml -e "live_os=fedora23"
