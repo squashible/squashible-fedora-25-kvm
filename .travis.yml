@@ -17,8 +17,8 @@ script:
 - sudo ansible-playbook -i hosts_generator.py squashible.yml -e "live_os=fedora_23"
 - ls -lah live_output
 before_deploy:
+- sudo chown -R travis:travis live_output 
 - cd live_output
-- sudo chown travis:travis *
 - mkdir squashible-fedora-23-minimal
 - mv vmlinuz squashible-fedora-23-minimal
 - mv *.img squashible-fedora-23-minimal
