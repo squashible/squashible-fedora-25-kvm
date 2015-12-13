@@ -18,6 +18,7 @@ script:
 - ls -lah live_output
 before_deploy:
 - cd live_output
+- sudo chown travis:travis *
 - mkdir squashible-fedora-23-minimal
 - mv vmlinuz squashible-fedora-23-minimal
 - mv *.img squashible-fedora-23-minimal
