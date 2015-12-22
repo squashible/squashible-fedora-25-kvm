@@ -22,8 +22,5 @@ script:
 - ls -lah live_output
 - sudo chown -R travis:travis live_output 
 - cd live_output
-- mkdir squashible-fedora-23-minimal
-- mv vmlinuz squashible-fedora-23-minimal
-- mv *.img squashible-fedora-23-minimal
 after_success:
-    "curl --ftp-create-dirs -T squashible-fedora-23-minimal -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/"
+    "curl --ftp-create-dirs -T * -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/squashible-fedora-23-minimal"
