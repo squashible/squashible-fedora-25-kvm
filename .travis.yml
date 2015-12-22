@@ -23,4 +23,4 @@ script:
 - sudo chown -R travis:travis live_output 
 - cd live_output
 after_success:
-    "curl --ftp-create-dirs -T * -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/squashible-fedora-23-minimal"
+    "for i in `ls` ; do curl --ftp-create-dirs -T $i -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/squashible-fedora-23-minimal/ ; done"
