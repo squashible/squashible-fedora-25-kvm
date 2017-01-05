@@ -18,9 +18,9 @@ install:
 - sudo pip install docker-py
 script:
 - cd squashible
-- sudo ansible-playbook -i hosts_generator.py squashible_kvm.yml -e "live_os=fedora_23"
+- sudo ansible-playbook -i hosts_generator.py squashible_kvm.yml -e "live_os=fedora_25"
 - ls -lah live_output
 - sudo chown -R travis:travis live_output 
 - cd live_output
 after_success:
-    "curl --ftp-create-dirs -T '{vmlinuz,initrd.img,rootfs.img,rootfs.img.torrent}' -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/squashible-fedora-23-kvm/"
+    "curl --ftp-create-dirs -T '{vmlinuz,initrd.img,rootfs.img,rootfs.img.torrent}' -u $FTP_USER:$FTP_PASSWORD ftp://images.squashible.com/images/squashible-fedora-25-kvm/"
