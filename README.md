@@ -1,1 +1,1 @@
-squashible-fedora-23-minimal builder
+squashible-fedora-25-minimal builder
